@@ -1,0 +1,29 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports: 
+      - 9090:9090
+    networks:
+      - openwrt_monitoring
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - openwrt_monitoring
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  openwrt_monitoring:
+    driver: bridge
